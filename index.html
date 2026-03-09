@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار القدرات المنوع - أ/ عبدالعزيز الفيفي</title>
+    <title>تحدي اليوم - أ/ عبدالعزيز الفيفي</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root { --primary: #4a148c; --secondary: #7b1fa2; --bg: #f5f5f5; --accent: #ff9800; --correct: #2e7d32; --wrong: #c62828; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .quiz-container { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 600px; text-align: center; position: relative; }
+        .quiz-container { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 650px; text-align: center; position: relative; }
         #timer-bar { position: absolute; top: 0; right: 0; height: 6px; background: var(--accent); width: 100%; transition: width 1s linear; border-radius: 15px 15px 0 0; }
         .option-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; background: none; cursor: pointer; transition: 0.3s; font-size: 1.1rem; font-weight: 500; }
         .correct-flash { background-color: #e8f5e9 !important; border-color: var(--correct) !important; color: var(--correct); border-width: 3px !important; }
         .wrong-flash { background-color: #ffeeb2 !important; border-color: var(--wrong) !important; color: var(--wrong); }
         .hidden { display: none; }
+        .reading-text { background: #fff9c4; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: right; font-size: 1rem; border-right: 5px solid var(--accent); line-height: 1.6; }
         input[type="text"] { width: 85%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 2px solid #ddd; font-size: 1rem; text-align: center; }
         .btn-start { background: var(--primary); color: white; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1rem; }
         #feedback { margin-top: 15px; font-weight: bold; font-size: 1.1rem; min-height: 1.5em; }
         #timer-text { font-weight: bold; color: var(--accent); margin-bottom: 10px; }
         .copyright { font-size: 0.85rem; color: #666; margin-top: 25px; border-top: 1px solid #eee; padding-top: 10px; }
 
-        /* التنسيقات المطلوبة */
         .normal-text { color: #000; font-weight: normal; font-size: 0.85rem; }
         .date-red-small { color: #e53e3e; font-size: 0.85rem; font-weight: bold; margin: 10px 0; display: inline-block; }
     </style>
@@ -45,6 +45,7 @@
     <div id="quiz-section" class="hidden">
         <div id="timer-text">الوقت المتبقي: 40</div>
         <h3 id="question-title" style="color: var(--secondary); margin-bottom: 5px;"></h3>
+        <div id="reading-container" class="reading-text hidden"></div>
         <h2 id="question-text" style="margin-top: 5px;"></h2>
         <div id="options-container"></div>
         <div id="feedback"></div>
@@ -54,32 +55,31 @@
     <div id="result-section" class="hidden">
         <h2>تم اكتمال الاختبار بنجاح</h2>
         <h1 id="final-score" style="color: var(--primary);"></h1>
-        <!-- إضافة خط Tajawal من Google Fonts لضمان جمال النص -->
-<link href="https://fonts.googleapis.com" rel="stylesheet">
+        <link href="https://fonts.googleapis.com" rel="stylesheet">
 
-<button class="btn-start" onclick="location.reload()" style="
-    background: linear-gradient(45deg, #ff512f, #dd2476);
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 50px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(221, 36, 118, 0.4);
-    transition: transform 0.3s ease;
-    direction: rtl;
-">
-    ليس هناك تحدٍ أكبر من تطوير ذاتك؛ أعد الكرة الآن 🚀 أو كُن النسخة الأفضل غداً 🔥✨
-</button>
+        <button class="btn-start" onclick="location.reload()" style="
+            background: linear-gradient(45deg, #ff512f, #dd2476);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(221, 36, 118, 0.4);
+            transition: transform 0.3s ease;
+            direction: rtl;
+        ">
+            ليس هناك تحدٍ أكبر من تطوير ذاتك؛ أعد الكرة الآن 🚀 أو كُن النسخة الأفضل غداً 🔥✨
+        </button>
 
-<style>
-    .btn-start:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 20px rgba(221, 36, 118, 0.6);
-    }
-</style>
+        <style>
+            .btn-start:hover {
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(221, 36, 118, 0.6);
+            }
+        </style>
 
         <p style="margin-top: 20px;">✨ أ / <span class="normal-text">عبد العزيز الفيفي</span> - <span class="normal-text">ثانوية الأمير عبدالمجيد 🎓</span></p>
     </div>
@@ -94,7 +94,6 @@
         const hijriDate = new Intl.DateTimeFormat('ar-SA', hijriOptions).format(today);
         const gregDate = new Intl.DateTimeFormat('ar-SA', gregOptions).format(today);
         
-        // تم دمج التاريخين بدون تكرار "هـ" وبفاصل منسق
         document.getElementById('date-display').innerText = `${hijriDate} | ${gregDate} م`;
     }
 
@@ -102,24 +101,51 @@
     let timerInterval;
     let currentQ = 0;
     let score = 0;
-    const TRANSITION_DELAY = 5500; 
+    const TRANSITION_DELAY = 5500;
 
     const rawData = [
-        { type: "التناظر اللفظي", q: "قوي : متين", options: ["إيمان : جنة", "نتيجة : سبب", "حب : امتلاك", "زهيد : رخيص"], correctText: "زهيد : رخيص" },
-        { type: "التناظر اللفظي", q: "السرير : النوم", options: ["المستشفى : المرض", "المدرسة : العلم", "الملعب : اللعب", "الكرسي : الجلوس"], correctText: "الكرسي : الجلوس" },
-        { type: "إكمال الجمل", q: "إذا كنت تريد النجاح فـ ..... العقبات", options: ["تجنب", "تجاهل", "ذلل", "ارسم"], correctText: "ذلل" },
-        { type: "إكمال الجمل", q: "المتفائل يرى فرصة في كل .....", options: ["صعوبة", "سهولة", "طريق", "فشل"], correctText: "صعوبة" },
-        { type: "إكمال الجمل", q: "من زاد عقله قل .....", options: ["ماله", "كلامه", "صديقه", "خوفه"], correctText: "كلامه" },
-        { type: "الخطأ السياقي", q: "الرجل الصالح هو من يتحمل خيرات جيرانه", options: ["الصالح", "يتحمل", "خيرات", "جيرانه"], correctText: "خيرات" },
-        { type: "الخطأ السياقي", q: "العظمة هي أن تبتسم والدموع في عينك", options: ["العظمة", "تبتسم", "الدموع", "عينك"], correctText: "العظمة" },
-        { type: "إكمال الجمل", q: "الاستغفار يفتح الأقفال ويشرح البال", options: ["الحديدية", "المغلقة", "القديمة", "الصعبة"], correctText: "المغلقة" },
-        { type: "التناظر اللفظي", q: "فصل : صيف", options: ["يوم : ساعة", "سنة : شهر", "أسبوع : سبت", "وقت : فجر"], correctText: "أسبوع : سبت" },
-        { type: "التناظر اللفظي", q: "طبيب : سماعة", options: ["جندي : سلاح", "مهندس : بناء", "معلم : سبورة", "فلاح : زرع"], correctText: "جندي : سلاح" },
-        { type: "الخطأ السياقي", q: "المعلم الناجح هو الذي يثبط طلابه للوصول للقمة", options: ["المعلم", "يثبط", "طلابه", "القمة"], correctText: "يثبط" },
-        { type: "التناظر اللفظي", q: "العين : الرؤية", options: ["الأذن : السمع", "الرئة : التنفس", "القدم : المشي", "الأنف : الشم"], correctText: "الأذن : السمع" },
-        { type: "إكمال الجمل", q: "من أراد العلى سهر .....", options: ["الليل", "النهار", "الليالي", "الفراش"], correctText: "الليالي" },
-        { type: "الخطأ السياقي", q: "لا تجعل عوائقك تمنعك من التقدم نحو الفشل", options: ["عوائقك", "تمنعك", "التقدم", "الفشل"], correctText: "الفشل" },
-        { type: "الخطأ السياقي", q: "الصديق الحقيقي هو من يساندك وقت الرخاء", options: ["الصديق", "يساندك", "وقت", "الرخاء"], correctText: "الرخاء" }
+        // 1. التناظر اللفظي
+        { type: "التناظر اللفظي", q: "أكسجين : تنفس", options: ["وقود : حركة", "ماء : شرب", "نار : حرق", "غذاء : نمو"], correctText: "وقود : حركة" },
+        { type: "التناظر اللفظي", q: "مقال : عنوان", options: ["حديقة : سور", "منزل : رقم", "كتاب : فكرة", "إنسان : اسم"], correctText: "إنسان : اسم" },
+        { type: "التناظر اللفظي", q: "فشل : يأس", options: ["نجاح : فخر", "كسل : إحباط", "مرض : موت", "غنى : ترف"], correctText: "نجاح : فخر" },
+        
+        // 2. إكمال الجمل
+        { type: "إكمال الجمل", q: "يعد الوعي ..... من أهم ركائز استقرار الميزانية الشخصية", options: ["الاستهلاكي", "الثقافي", "المهني", "الرياضي"], correctText: "الاستهلاكي" },
+        { type: "إكمال الجمل", q: "من وعظ أخاه ..... فقد زانه، ومن وعظه ..... فقد شانه", options: ["سراً - علانية", "دائماً - فجأة", "جهراً - سراً", "بلطف - بقسوة"], correctText: "سراً - علانية" },
+        { type: "إكمال الجمل", q: "المؤمن كـ ..... أينما وقع نفع", options: ["الغيث", "النحلة", "الشجرة", "الضوء"], correctText: "الغيث" },
+
+        // 3. المفردة الشاذة والارتباط والاختلاف
+        { type: "المفردة الشاذة", q: "ما الكلمة المختلفة؟", options: ["الميزان", "المسطرة", "الفرجار", "البوصلة"], correctText: "البوصلة" },
+        { type: "الارتباط والاختلاف", q: "ما الكلمة المختلفة؟", options: ["الطائرة", "الصاروخ", "المنطاد", "السفينة"], correctText: "السفينة" },
+        { type: "المفردة الشاذة", q: "ما الكلمة المختلفة؟", options: ["الأمير", "الوزير", "الملك", "السلطان"], correctText: "الوزير" },
+
+        // 4. الخطأ في السياق
+        { type: "الخطأ في السياق", q: "صنعة في اليد أمان من الغنى", options: ["صنعة", "اليد", "أمان", "الغنى"], correctText: "الغنى" },
+        { type: "الخطأ في السياق", q: "من غضب من لا شيء، رضي بكل شيء", options: ["غضب", "شيء", "رضي", "بكل"], correctText: "رضي" },
+        { type: "الخطأ في السياق", q: "العظماء يولدون في أحضان الوحدة، ويموتون في مهد الزحام", options: ["العظماء", "الوحدة", "يموتون", "الزحام"], correctText: "الزحام" },
+
+        // 5. استيعاب المقروء
+        { 
+            type: "استيعاب المقروء", 
+            text: "تعتبر أشجار القرم (المانجروف) رئة للبحار، وتساهم في امتصاص كميات كبيرة من الكربون وتوفر مأوى للكثير من الكائنات.",
+            q: "يُفهم من النص أن أشجار القرم تلعب دوراً في:", 
+            options: ["تحسين جودة الهواء", "زيادة ملوحة الماء", "منع الصيد الجائر", "تبريد مياه البحار"], 
+            correctText: "تحسين جودة الهواء" 
+        },
+        { 
+            type: "استيعاب المقروء", 
+            text: "يعتمد اقتصاد المستقبل بشكل كبير على البيانات (النفط الجديد)، حيث تساهم في اتخاذ قرارات دقيقة تزيد الكفاءة.",
+            q: "شبه الكاتب البيانات بالنفط الجديد للدلالة على:", 
+            options: ["قيمتها العالية", "صعوبة الحصول عليها", "تسببها في التلوث", "انتهائها السريع"], 
+            correctText: "قيمتها العالية" 
+        },
+        { 
+            type: "استيعاب المقروء", 
+            text: "يتكون الغلاف الجوي من عدة غازات أهمها النيتروجين، حيث يمثل النسبة الأكبر فيه.",
+            q: "الغاز الأكثر انتشاراً في الغلاف الجوي هو:", 
+            options: ["النيتروجين", "الأكسجين", "الهيدروجين", "الأرجون"], 
+            correctText: "النيتروجين" 
+        }
     ];
 
     let quizData = [];
@@ -144,6 +170,9 @@
         const q = quizData[currentQ];
         const shuffledOptions = shuffle([...q.options]);
         document.getElementById('question-title').innerText = `س ${currentQ + 1} في ( ${q.type} )`;
+        const readingBox = document.getElementById('reading-container');
+        if (q.text) { readingBox.innerText = q.text; readingBox.classList.remove('hidden'); } 
+        else { readingBox.classList.add('hidden'); }
         document.getElementById('question-text').innerText = q.q;
         const container = document.getElementById('options-container');
         container.innerHTML = '';
@@ -166,10 +195,7 @@
         timerInterval = setInterval(() => {
             timeLeft--;
             updateTimerUI();
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                showCorrectAndNext();
-            }
+            if (timeLeft <= 0) { clearInterval(timerInterval); showCorrectAndNext(); }
         }, 1000);
     }
 
@@ -196,9 +222,7 @@
 
     function highlightCorrect(correctText) {
         const btns = document.querySelectorAll('.option-btn');
-        btns.forEach(btn => {
-            if (btn.innerText === correctText) btn.classList.add('correct-flash');
-        });
+        btns.forEach(btn => { if (btn.innerText === correctText) btn.classList.add('correct-flash'); });
     }
 
     function showCorrectAndNext() {
@@ -216,11 +240,8 @@
 
     function nextQuestion() {
         currentQ++;
-        if (currentQ < quizData.length) {
-            showQuestion();
-        } else {
-            finishQuiz();
-        }
+        if (currentQ < quizData.length) { showQuestion(); } 
+        else { finishQuiz(); }
     }
 
     function finishQuiz() {
@@ -230,7 +251,4 @@
     }
 </script>
 </body>
-
 </html>
-
-
